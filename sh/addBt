@@ -1,0 +1,2 @@
+/export/home/clustering/splunk/bin/splunk add monitor  /net/qa-kickstart/depot/internal/bt -index bt -auth admin:changeme
+

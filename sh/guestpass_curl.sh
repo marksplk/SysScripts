@@ -1,0 +1,2 @@
+
+curl -X GET "http://ronnie.splunk.com:28080/sso/en-US/embed?s=%2FservicesNS%2Fchris%2520opends%2520user%2Fsearch%2Fsaved%2Fsearches%2Fithangasamy&oid=Y8UfGXiz63NgKT8YPi6uxzlZ4E8Zqe2Yyd86v%5EMhkrRrL2xysCvU42q9LXSlr9TPtNREAGJZPmmGdj962FD4DntxTaJsLCn40nVZdTezJlTYjhGjAZQl5RzK_g2Ipuh6O8wSlLXmdgDl9ack61lbHSRCyKCpF_w4svC"

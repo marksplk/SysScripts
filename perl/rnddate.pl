@@ -1,0 +1,12 @@
+ use Data::Random qw(:all);
+  my @random_words = rand_words( size => 10 );
+  my @random_chars = rand_chars( set => 'all', min => 5, max => 8 );
+  my @random_set = rand_set( set => \@set, size => 5 );
+  my $random_enum = rand_enum( set => \@set );
+  my $random_date = rand_date();
+  my $random_time = rand_time();
+  my $random_datetime = rand_datetime();
+  open(FILE, ">rand_image.png") or die $!;
+  binmode(FILE);
+  print FILE rand_image( bgcolor => [0, 0, 0] );
+  close(FILE);

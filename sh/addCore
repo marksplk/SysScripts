@@ -1,0 +1,1 @@
+echo "/export/home/clustering/%e_%s.%p" > /proc/sys/kernel/core_pattern

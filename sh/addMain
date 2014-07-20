@@ -1,0 +1,2 @@
+/export/home/clustering/splunk/bin/splunk add monitor  /net/qa-kickstart/depot/internal/fermi -auth admin:changeme
+
