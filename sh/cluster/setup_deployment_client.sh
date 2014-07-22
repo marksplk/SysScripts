@@ -21,7 +21,8 @@ deploymentserver="$4"
 
 echo "#!/bin/bash
 $base/$prefix/bin/splunk enable deploy-client -auth admin:changeme
-$base/$prefix/bin/splunk set deploy-poll $deploymentserver:$deployment_port -auth admin:changeme
+$base/$prefix/bin/splunk restart
+$base/$prefix/bin/splunk set deploy-poll \"$deploymentserver:$deployment_port\" -auth admin:changeme
 $base/$prefix/bin/splunk restart
 " > $RUN_FILE
 

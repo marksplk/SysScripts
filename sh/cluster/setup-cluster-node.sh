@@ -45,11 +45,13 @@ elif [ $nodeType = "licenseMaster" ]; then
     " > $RUN_FILE
 elif [ $nodeType = "deploymentServer" ]; then
     echo "
-    #!/bin/bash
-    $base/$prefix/bin/splunk edit licenser-localslave -master_uri https://$licensemaster:1901 -auth admin:changeme
-    $base/$prefix/bin/splunk enable deploy-server -auth admin:changeme
-    $base/$prefix/bin/splunk stop -f  
-    $base/$prefix/bin/splunk start
+#!/bin/bash
+$base/$prefix/bin/splunk edit licenser-localslave -master_uri https://$licensemaster:1901 -auth admin:changeme
+$base/$prefix/bin/splunk stop -f  
+$base/$prefix/bin/splunk start
+$base/$prefix/bin/splunk enable deploy-server -auth admin:changeme
+$base/$prefix/bin/splunk stop -f  
+$base/$prefix/bin/splunk start
 " > $RUN_FILE
 else
     echo "#!/bin/bash
