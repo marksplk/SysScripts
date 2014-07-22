@@ -57,7 +57,7 @@ def create_instance(instance_type, instance_name,f):
     return (instance, instance_type, instance_name)
 
 
-def test_ssh(instance_tuple, f):
+def test_ssh(instance_tuple):
     _aws_instance = instance_tuple[0]
     env.host_string = _aws_instance.public_dns_name
     env.user = ssh_username
@@ -127,7 +127,7 @@ def main():
 
         # check the ssh available
         for instance in aws_instances:
-            test_ssh(instance, f)
+            test_ssh(instance)
 
     except Exception, e:
         sys.stderr.write("[Error] %s" % str(e))

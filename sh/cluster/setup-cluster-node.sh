@@ -15,7 +15,7 @@ prefix="$3"
 RUN_FILE=/tmp/node.config.$$
 licensefile="500MB.lic"
 
-licenseMaster="$4"
+licensemaster="$4"
 masterUrl="$5"
 
 if [ $nodeType = "master" ]
@@ -29,7 +29,7 @@ then
 elif [ $nodeType = "slave" ]
 then
     echo "#!/bin/bash
-    $base/$prefix/bin/splunk edit cluster-config -mode slave -secret secret12  -master_uri ${proto}://$licenseMaster:$master_port -replication_port $rep_port -auth admin:changeme
+    $base/$prefix/bin/splunk edit cluster-config -mode slave -secret secret12  -master_uri ${proto}://$licensemaster:$master_port -replication_port $rep_port -auth admin:changeme
     $base/$prefix/bin/splunk edit licenser-localslave -master_uri https://$masterUrl:1901 -auth admin:changeme
     $base/$prefix/bin/splunk stop -f  
     $base/$prefix/bin/splunk start  
@@ -37,11 +37,10 @@ then
     $base/$prefix/bin/splunk enable listen -port 9999 -auth admin:changeme
     " > $RUN_FILE
 elif [ $nodeType = "licenseMaster" ]; then
-    scp -i ~/Work/Documents/AWSkeys/mark_splk.pem $licensefile ubuntu@$hname:500MB.lic
     echo "#!/bin/bash
-        $base/$prefix/bin/splunk add licenses ~/500MB.lic 
+        $base/$prefix/bin/splunk add licenses ~/500MB.lic -auth admin:changeme
         $base/$prefix/bin/splunk restart
-        $base/$prefix/bin/splunk edit licenser-groups Enterprise -is_active 1
+        $base/$prefix/bin/splunk edit licenser-groups Enterprise -is_active 1 -auth admin:changeme
         $base/$prefix/bin/splunk restart
     " > $RUN_FILE
 elif [ $nodeType = "deploymentServer" ]; then
@@ -61,7 +60,7 @@ $base/$prefix/bin/splunk reload deploy-server -auth admin:changeme
 " > $RUN_FILE
 else
     echo "#!/bin/bash
-    $base/$prefix/bin/splunk edit cluster-config -mode searchhead -secret secret12  -master_uri ${proto}://$licenseMaster:$master_port -replication_port $rep_port -auth admin:changeme
+    $base/$prefix/bin/splunk edit cluster-config -mode searchhead -secret secret12  -master_uri ${proto}://$licensemaster:$master_port -replication_port $rep_port -auth admin:changeme
     $base/$prefix/bin/splunk edit licenser-localslave -master_uri https://$masterUrl:1901 -auth admin:changeme
     $base/$prefix/bin/splunk stop -f  
     $base/$prefix/bin/splunk start  

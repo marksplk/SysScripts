@@ -4,14 +4,14 @@ url=$2
 hname=$1
 sfix=$3
 base="~/systest/clustering"
-fname=`echo $url  | cut -d\/ -f4`
+fname=`echo $url  | cut -d "/" -f4`
 if [ $sfix = "" ]
 then
-   prefix1=`echo $url  | cut -d\/ -f7 | cut -d- -f1`
+   prefix1=`echo $url  | cut -d "/" -f7 | cut -d "-" -f1`
 else
    prefix1=$sfix
 fi
-prefix=`echo $url  | cut -d \/ -f4 | cut -d - -f1`
+prefix=`echo $url  | cut -d "/" -f4 | cut -d "-" -f1`
 ssl=true
 RUN_FILE=/tmp/run.$$.sh
 WEB_PORT=1900
@@ -55,4 +55,4 @@ $base/$prefix/bin/splunk start --accept-license --answer-yes
 chmod +x $RUN_FILE
 scp -i /Users/cesc/Work/Documents/AWSkeys/mark_splk.pem -o StrictHostKeyChecking=no $RUN_FILE ubuntu@$hname:$RUN_FILE
 ssh -i /Users/cesc/Work/Documents/AWSkeys/mark_splk.pem -o StrictHostKeyChecking=no ubuntu@$hname $RUN_FILE
-#/bin/rm -f $RUN_FILE
+/bin/rm -f $RUN_FILE
