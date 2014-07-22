@@ -18,7 +18,7 @@ license_master = 1
 forwarder = 1
 
 # instance_name
-prefix = "QLM_SPLK"
+prefix = "QLM_SPLKYFJ"
 
 # check_ssh
 pem_file_path = '/Users/cesc/Work/Documents/AWSkeys/mark_splk.pem'
@@ -33,7 +33,7 @@ from boto import ec2
 from fabric.api import env, run
 
 
-def create_instance(instance_type, instance_name):
+def create_instance(instance_type, instance_name,f):
     conn = ec2.connect_to_region(singapore_region,
                                  aws_access_key_id=aws_access_key_id,
                                  aws_secret_access_key=aws_secret_access_key)
@@ -52,6 +52,8 @@ def create_instance(instance_type, instance_name):
     if status == 'running':
         instance.add_tag("Name", instance_name)
 
+    f.write("%s,%s,%s\n" % (instance.id, instance.public_dns_name, instance_type))
+    
     return (instance, instance_type, instance_name)
 
 
@@ -65,7 +67,7 @@ def test_ssh(instance_tuple, f):
     while (time.time() - start_time) < 5 * 60:
         try:
             run("/usr/bin/whoami")
-            f.write("%s,%s,%s" % (_aws_instance.id, _aws_instance.public_dns_name, instance_tuple[1]))
+    #        f.write("%s,%s,%s\n" % (_aws_instance.id, _aws_instance.public_dns_name, instance_tuple[1]))
             break
         except:
             time.sleep(10)
@@ -85,43 +87,43 @@ def main():
         # first create the instance in aws
         sys.stdout.write(
             "The environment need total %s machines\n" % (
-                master + search_head + peer + forwarder + license_master + deployment_server))
+                master + search_head + slave + forwarder + license_master + deployment_server))
 
         sys.stdout.write("create the instance as master\n")
         for i in range(master):
             instance_name = "%s_%s_%s" % (prefix, "master", i)
             sys.stdout.write("[%s] create the master with name #%s#\n" % ("master", instance_name))
-            aws_instances.append(create_instance("master", instance_name))
+            aws_instances.append(create_instance("master", instance_name,f))
 
         sys.stdout.write("create the instance as slave\n")
         for i in range(slave):
             instance_name = "%s_%s_%s" % (prefix, "slave", i)
             sys.stdout.write("[%s] create the slave with name #%s#\n" % ("slave", instance_name))
-            aws_instances.append(create_instance("slave", instance_name))
+            aws_instances.append(create_instance("slave", instance_name,f))
 
         sys.stdout.write("create the instance as searchHead\n")
         for i in range(search_head):
             instance_name = "%s_%s_%s" % (prefix, "searchHead", i)
             sys.stdout.write("[%s] create the searchHead with name #%s#\n" % ("searchHead", instance_name))
-            aws_instances.append(create_instance("searchHead", instance_name))
+            aws_instances.append(create_instance("searchHead", instance_name,f))
 
         sys.stdout.write("create the instance as deploymentServer\n")
         for i in range(deployment_server):
             instance_name = "%s_%s_%s" % (prefix, "deploymentServer", i)
             sys.stdout.write("[%s] create the deploymentServer with name #%s#\n" % ("deploymentServer", instance_name))
-            aws_instances.append(create_instance("deploymentServer", instance_name))
+            aws_instances.append(create_instance("deploymentServer", instance_name,f))
 
         sys.stdout.write("create the instance as forwarder\n")
         for i in range(forwarder):
             instance_name = "%s_%s_%s" % (prefix, "forwarder", i)
             sys.stdout.write("[%s] create the forwarder with name #%s#\n" % ("forwarder", instance_name))
-            aws_instances.append(create_instance("forwarder", instance_name))
+            aws_instances.append(create_instance("forwarder", instance_name,f))
 
         sys.stdout.write("create the instance as licenseMaster\n")
         for i in range(license_master):
             instance_name = "%s_%s_%s" % (prefix, "licenseMaster", i)
             sys.stdout.write("[%s] create the licenseMaster with name #%s#\n" % ("licenseMaster", instance_name))
-            aws_instances.append(create_instance("licenseMaster", instance_name))
+            aws_instances.append(create_instance("licenseMaster", instance_name,f))
 
         # check the ssh available
         for instance in aws_instances:

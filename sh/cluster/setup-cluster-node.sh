@@ -15,6 +15,9 @@ prefix="$3"
 RUN_FILE=/tmp/node.config.$$
 licensefile="500MB.lic"
 
+licenseMaster="$4"
+masterUrl="$5"
+
 if [ $nodeType = "master" ]
 then
     echo "#!/bin/bash
@@ -26,15 +29,15 @@ then
 elif [ $nodeType = "slave" ]
 then
     echo "#!/bin/bash
-    $base/$prefix/bin/splunk edit cluster-config -mode slave -secret secret12  -master_uri ${proto}://ec2-54-179-187-79.ap-southeast-1.compute.amazonaws.com:$master_port -replication_port $rep_port -auth admin:changeme
-    $base/$prefix/bin/splunk edit licenser-localslave -master_uri https://ec2-54-179-188-253.ap-southeast-1.compute.amazonaws.com:1901 -auth admin:changeme
+    $base/$prefix/bin/splunk edit cluster-config -mode slave -secret secret12  -master_uri ${proto}://$licenseMaster:$master_port -replication_port $rep_port -auth admin:changeme
+    $base/$prefix/bin/splunk edit licenser-localslave -master_uri https://$masterUrl:1901 -auth admin:changeme
     $base/$prefix/bin/splunk stop -f  
     $base/$prefix/bin/splunk start  
     $base/$prefix/bin/splunk list peer-info  -auth admin:changeme
     $base/$prefix/bin/splunk enable listen -port 9999 -auth admin:changeme
     " > $RUN_FILE
 elif [ $nodeType = "licenseMaster" ]; then
-    scp -i ~/Work/Documents/AWSkeys/mark_splk.pem $licensefile $hname:500MB.lic
+    scp -i ~/Work/Documents/AWSkeys/mark_splk.pem $licensefile ubuntu@$hname:500MB.lic
     echo "#!/bin/bash
         $base/$prefix/bin/splunk add licenses ~/500MB.lic 
         $base/$prefix/bin/splunk restart
@@ -58,8 +61,8 @@ $base/$prefix/bin/splunk reload deploy-server -auth admin:changeme
 " > $RUN_FILE
 else
     echo "#!/bin/bash
-    $base/$prefix/bin/splunk edit cluster-config -mode searchhead -secret secret12  -master_uri ${proto}://ec2-54-179-187-79.ap-southeast-1.compute.amazonaws.com:$master_port -replication_port $rep_port -auth admin:changeme
-    $base/$prefix/bin/splunk edit licenser-localslave -master_uri https://ec2-54-179-188-253.ap-southeast-1.compute.amazonaws.com:1901 -auth admin:changeme
+    $base/$prefix/bin/splunk edit cluster-config -mode searchhead -secret secret12  -master_uri ${proto}://$licenseMaster:$master_port -replication_port $rep_port -auth admin:changeme
+    $base/$prefix/bin/splunk edit licenser-localslave -master_uri https://$masterUrl:1901 -auth admin:changeme
     $base/$prefix/bin/splunk stop -f  
     $base/$prefix/bin/splunk start  
     $base/$prefix/bin/splunk list peer-info -auth admin:changeme
@@ -69,4 +72,4 @@ chmod 755 $RUN_FILE
 echo $RUN_FILE
 scp -i /Users/cesc/Work/Documents/AWSkeys/mark_splk.pem $RUN_FILE ubuntu@$hname:$RUN_FILE
 ssh -i /Users/cesc/Work/Documents/AWSkeys/mark_splk.pem ubuntu@$hname $RUN_FILE
-#/bin/rm $RUN_FILE
+/bin/rm $RUN_FILE
