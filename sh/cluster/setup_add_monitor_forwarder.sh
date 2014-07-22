@@ -16,7 +16,7 @@ RUN_FILE=/tmp/node.config.$$
 
 index_target="$4"
 PORT=9777
-INDEXNAME="forwarded_data"
+INDEXNAME="forward_data"
 
 echo "
 #!/bin/bash
@@ -26,16 +26,16 @@ cat <<EOF >$base/$prefix/etc/system/local/outputs.conf
 defaultGroup=my_indexers
 
 [tcpout:my_indexers]
-server=$index_target:9997
+server=$index_target:9777
 
-[tcpout-server://$index_target:9997]
+[tcpout-server://$index_target:9777]
 compressed=false
 sendCookedData=true
 
 EOF
 
-$base/$prefix/bin/splunk
-$base/$prefix/bin/splunk add monitor /var/log/syslog -auth admin:changme
+$base/$prefix/bin/splunk restart
+$base/$prefix/bin/splunk add monitor /var/log/syslog -auth admin:changeme
 "> $RUN_FILE
 
 chmod 755 $RUN_FILE 

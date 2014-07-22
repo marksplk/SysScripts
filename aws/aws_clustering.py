@@ -18,7 +18,7 @@ license_master = 1
 forwarder = 1
 
 # instance_name
-prefix = "QLM_SPLKYFJ"
+prefix = "  "
 
 # check_ssh
 pem_file_path = '/Users/cesc/Work/Documents/AWSkeys/mark_splk.pem'
@@ -52,7 +52,7 @@ def create_instance(instance_type, instance_name,f):
     if status == 'running':
         instance.add_tag("Name", instance_name)
 
-    f.write("%s,%s,%s\n" % (instance.id, instance.public_dns_name, instance_type))
+    f.write("%s,%s,%s,%s,%s\n" % (instance.id, instance.ip_address, instance_type,instance.public_dns_name,instance.private_ip_address))
     
     return (instance, instance_type, instance_name)
 

@@ -8,10 +8,11 @@ export DEPLOYMENT_SERVER
 while read line; do
 	host=`echo $line|cut -d "," -f2`
 	nodeType=`echo $line|cut -d "," -f3`
+	internal_host=`echo $line|cut -d "," -f5`
 	if [ $nodeType == "licenseMaster" ]; then
-		LICENSE_MASTER=$host
+		LICENSE_MASTER=$internal_host
 	elif [ $nodeType == "deploymentServer" ]; then
-		DEPLOYMENT_SERVER=$host
+		DEPLOYMENT_SERVER=$internal_host
 	fi
 done<"./aws_instance_list"
 

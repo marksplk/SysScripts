@@ -15,7 +15,7 @@ prefix="$3"
 RUN_FILE=/tmp/node.config.$$
 
 PORT=9777
-INDEXNAME="forwarded_data"
+INDEXNAME="forward_data"
 
 echo "#!/bin/bash
 $base/$prefix/bin/splunk add index -name $INDEXNAME -auth admin:changeme
