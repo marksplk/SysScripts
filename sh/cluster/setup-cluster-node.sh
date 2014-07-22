@@ -45,18 +45,11 @@ elif [ $nodeType = "licenseMaster" ]; then
     " > $RUN_FILE
 elif [ $nodeType = "deploymentServer" ]; then
     echo "
-#!/bin/bash
-$base/$prefix/bin/splunk enable deploy-server -auth admin:changeme
-        
-cat <<EOF > $base/$prefix/etc/system/local/serverclass.conf
-    [serverClass:a:app:AlexDashboards]
-    restartSplunkWeb = 0
-    restartSplunkd = 0
-    stateOnClient = enabled
-    [serverClass:a]
-EOF
-
-$base/$prefix/bin/splunk reload deploy-server -auth admin:changeme
+    #!/bin/bash
+    $base/$prefix/bin/splunk edit licenser-localslave -master_uri https://$licensemaster:1901 -auth admin:changeme
+    $base/$prefix/bin/splunk enable deploy-server -auth admin:changeme
+    $base/$prefix/bin/splunk stop -f  
+    $base/$prefix/bin/splunk start
 " > $RUN_FILE
 else
     echo "#!/bin/bash

@@ -27,3 +27,5 @@ while read line; do
 		echo "sh ../sh/cluster/setup-cluster-node.sh $nodeType $host splunk $LICENSE_MASTER $MASTER">> $DEPLOY_RUN_FILE
 	fi
 done<"./aws_instance_list"
+
+chmod 755 $DEPLOY_RUN_FILE
