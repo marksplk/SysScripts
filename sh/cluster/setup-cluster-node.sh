@@ -29,8 +29,8 @@ then
 elif [ $nodeType = "slave" ]
 then
     echo "#!/bin/bash
-    $base/$prefix/bin/splunk edit cluster-config -mode slave -secret secret12  -master_uri ${proto}://$licensemaster:$master_port -replication_port $rep_port -auth admin:changeme
-    $base/$prefix/bin/splunk edit licenser-localslave -master_uri https://$masterUrl:1901 -auth admin:changeme
+    $base/$prefix/bin/splunk edit cluster-config -mode slave -secret secret12  -master_uri ${proto}://$masterUrl:$master_port -replication_port $rep_port -auth admin:changeme
+    $base/$prefix/bin/splunk edit licenser-localslave -master_uri https://$licensemaster:1901 -auth admin:changeme
     $base/$prefix/bin/splunk stop -f  
     $base/$prefix/bin/splunk start  
     $base/$prefix/bin/splunk list peer-info  -auth admin:changeme
@@ -60,8 +60,8 @@ $base/$prefix/bin/splunk reload deploy-server -auth admin:changeme
 " > $RUN_FILE
 else
     echo "#!/bin/bash
-    $base/$prefix/bin/splunk edit cluster-config -mode searchhead -secret secret12  -master_uri ${proto}://$licensemaster:$master_port -replication_port $rep_port -auth admin:changeme
-    $base/$prefix/bin/splunk edit licenser-localslave -master_uri https://$masterUrl:1901 -auth admin:changeme
+    $base/$prefix/bin/splunk edit cluster-config -mode searchhead -secret secret12  -master_uri ${proto}://$masterUrl:$master_port -replication_port $rep_port -auth admin:changeme
+    $base/$prefix/bin/splunk edit licenser-localslave -master_uri https://$licensemaster:1901 -auth admin:changeme
     $base/$prefix/bin/splunk stop -f  
     $base/$prefix/bin/splunk start  
     $base/$prefix/bin/splunk list peer-info -auth admin:changeme

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEPLOY_RUN_FILE="deploy_license_master_$$.sh"
+DEPLOY_RUN_FILE="deploy_aws_license_master_$$.sh"
 licensefile="./licenses/500MB.lic"
 
 cat "./aws_instance_list" | while read line; do
