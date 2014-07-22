@@ -19,7 +19,8 @@ INDEXNAME="forwarded_data"
 deployment_port=1901
 deploymentserver="$4"
 
-echo "#!/bin/bash
+echo "
+#!/bin/bash
 $base/$prefix/bin/splunk enable deploy-client -auth admin:changeme
 $base/$prefix/bin/splunk restart
 $base/$prefix/bin/splunk set deploy-poll \"$deploymentserver:$deployment_port\" -auth admin:changeme

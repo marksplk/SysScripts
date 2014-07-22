@@ -53,7 +53,6 @@ EOF
 $base/$prefix/bin/splunk start --accept-license --answer-yes
 " > $RUN_FILE
 chmod +x $RUN_FILE
-echo $RUN_FILE
-#scp -i /Users/cesc/Work/Documents/AWSkeys/mark_splk.pem -o StrictHostKeyChecking=no $RUN_FILE ubuntu@$hname:$RUN_FILE
-#ssh -i /Users/cesc/Work/Documents/AWSkeys/mark_splk.pem -o StrictHostKeyChecking=no ubuntu@$hname $RUN_FILE
-#/bin/rm -f $RUN_FILE
+scp -i /Users/cesc/Work/Documents/AWSkeys/mark_splk.pem -o StrictHostKeyChecking=no $RUN_FILE ubuntu@$hname:$RUN_FILE
+ssh -i /Users/cesc/Work/Documents/AWSkeys/mark_splk.pem -o StrictHostKeyChecking=no ubuntu@$hname $RUN_FILE
+/bin/rm -f $RUN_FILE

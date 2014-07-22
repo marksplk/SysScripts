@@ -14,13 +14,29 @@ base="~/systest/clustering"
 prefix="$3"
 RUN_FILE=/tmp/node.config.$$
 
+index_target="$4"
 PORT=9777
 INDEXNAME="forwarded_data"
 
-echo "#!/bin/bash
-$base/$prefix/bin/splunk add index -name $INDEXNAME -auth admin:changeme
-$base/$prefix/bin/splunk add tcp $PORT -index $INDEXNAME
-" > $RUN_FILE
+echo "
+#!/bin/bash
+
+cat <<EOF >$base/$prefix/etc/system/local/outputs.conf
+[tcpout]
+defaultGroup=my_indexers
+
+[tcpout:my_indexers]
+server=$index_target:9997
+
+[tcpout-server://$index_target:9997]
+compressed=false
+sendCookedData=true
+
+EOF
+
+$base/$prefix/bin/splunk
+$base/$prefix/bin/splunk add monitor /var/log/syslog -auth admin:changme
+"> $RUN_FILE
 
 chmod 755 $RUN_FILE 
 scp -i /Users/cesc/Work/Documents/AWSkeys/mark_splk.pem $RUN_FILE ubuntu@$hname:$RUN_FILE

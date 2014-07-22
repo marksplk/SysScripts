@@ -10,6 +10,8 @@ cat "./aws_instance_list" | while read line; do
 	nodeType=`echo $line|cut -d "," -f3`
 	if [ ! $nodeType = "forwarder" ]; then
 		echo "sh ../sh/setup-instance.sh $host $SPLUNK_RELEASE splunk" >> $DEPLOY_RUN_FILE
+	else
+		echo "sh ../sh/setup-instance.sh $host $SPLUNK_FORWARDER_RELEASE splunkforwarder" >> $DEPLOY_RUN_FILE
 	fi
 done
 
