@@ -30,3 +30,5 @@ cat "./aws_instance_list" | while read line; do
 done
 
 chmod +x $DEPLOY_RUN_FILE
+
+echo "execute the $DEPLOY_RUN_FILE to deploy the cluster with [master,indexer,search head]"

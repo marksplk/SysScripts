@@ -30,3 +30,5 @@ while read line; do
 done<"./aws_instance_list"
 
 chmod 755 $DEPLOY_RUN_FILE
+
+echo "execute the $DEPLOY_RUN_FILE to deploy the deployment server"

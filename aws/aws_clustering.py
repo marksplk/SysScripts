@@ -71,7 +71,8 @@ def test_ssh(instance_tuple):
             break
         except:
             time.sleep(10)
-
+    else:
+        raise Exception("The instance could not ssh %s" % str(instance_tuple))
 
 def main():
     if os.path.exists(output_path):

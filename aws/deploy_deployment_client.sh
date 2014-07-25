@@ -25,3 +25,5 @@ cat "./aws_instance_list" | while read line; do
 done
 
 chmod 755 $DEPLOY_RUN_FILE
+
+echo "execute the $DEPLOY_RUN_FILE to deploy the deployment client"
